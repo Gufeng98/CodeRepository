@@ -100,7 +100,7 @@ public:
         resetParameters();
     }
 
-	// 初始化各类参数以及分配内存
+	// 初始化各类参数以及分配内存 在构造函数中执行
     void allocateMemory(){
 
         laserCloudIn.reset(new pcl::PointCloud<PointType>());

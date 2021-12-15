@@ -313,7 +313,7 @@ public:
         sinImuYawStart = sin(imuYawStart);
     }
 
-
+    //变换坐标计算漂移
     void ShiftToStartIMU(float pointTime)
     {
         // 下面三个量表示的是世界坐标系下，从start到cur的坐标的漂移
@@ -335,6 +335,7 @@ public:
         imuShiftFromStartZCur = z2;
     }
 
+    //变换坐标计算速度变化
     void VeloToStartIMU()
     {
         // imuVeloXStart,imuVeloYStart,imuVeloZStart是点云索引i=0时刻的速度
@@ -345,7 +346,7 @@ public:
         imuVeloFromStartZCur = imuVeloZCur - imuVeloZStart;
 
         // ！！！下面从世界坐标系转换到start坐标系，roll,pitch,yaw要取负值
-        // 首先绕y轴进行旋转
+        // 首先绕y轴(-yaw)进行旋转
         //    |cosry   0   sinry|
         // Ry=|0       1       0|
         //    |-sinry  0   cosry|
@@ -427,7 +428,8 @@ public:
         p->y = -sinImuRollStart * x5 + cosImuRollStart * y5 + imuShiftFromStartYCur;
         p->z = z5 + imuShiftFromStartZCur;
     }
-
+ 
+    //变换坐标计算加速度变化
     void AccumulateIMUShiftAndRotation()
     {
         float roll = imuRoll[imuPointerLast];
@@ -1991,6 +1993,7 @@ public:
         }
     }
 
+    // 函数执行入口
     void runFeatureAssociation()
     {
         // 如果有新数据进来则执行，否则不执行任何操作
@@ -2044,9 +2047,7 @@ public:
     }
 };
 
-
-
-
+// 主函数
 int main(int argc, char** argv)
 {
     ros::init(argc, argv, "lego_loam");
