@@ -10,6 +10,7 @@
 				"-g",
 				"${file}",
 				"-std=c++17",
+				"-std=c++11",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}"
 			],
